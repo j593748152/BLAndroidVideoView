@@ -1,4 +1,5 @@
-添加远程仓库
+添加远程仓库   
+<pre>
 allprojects {
 		
     repositories {
@@ -6,7 +7,10 @@ allprojects {
 			maven { url 'https://jitpack.io' }
 		}
 }
-依赖
+</pre>
+依赖   
+<pre>
 dependencies {
 	        implementation 'com.github.BailunMobileDev:BLAndroidVideoView:v0.1.0'
 }
+</pre>
