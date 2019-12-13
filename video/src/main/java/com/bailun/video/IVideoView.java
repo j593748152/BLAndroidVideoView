@@ -15,8 +15,6 @@ public interface IVideoView {
 
     void seekTo(long msec);
 
-    void resume();
-
     boolean isPlaying();
 
     int getBufferPercentage();

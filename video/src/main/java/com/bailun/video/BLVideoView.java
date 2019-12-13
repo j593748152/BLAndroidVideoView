@@ -216,6 +216,7 @@ public class BLVideoView extends SurfaceView implements IVideoView{
 
 
     public void stopPlayback() {
+        Log.d(TAG,"stopPlayback");
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
@@ -423,13 +424,13 @@ public class BLVideoView extends SurfaceView implements IVideoView{
 
         public void surfaceCreated(SurfaceHolder holder) {
             mSurfaceHolder = holder;
-            openVideo();
+            mMediaPlayer.setDisplay(mSurfaceHolder);
         }
 
         public void surfaceDestroyed(SurfaceHolder holder) {
             // after we return from this we can't use the surface any more
             mSurfaceHolder = null;
-            release(true);
+            //release(true);
         }
     };
 
@@ -517,10 +518,6 @@ public class BLVideoView extends SurfaceView implements IVideoView{
 
     public void suspend() {
         release(false);
-    }
-
-    public void resume() {
-        openVideo();
     }
 
     @Override
