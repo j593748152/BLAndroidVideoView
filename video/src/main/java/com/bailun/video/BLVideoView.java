@@ -424,7 +424,9 @@ public class BLVideoView extends SurfaceView implements IVideoView{
 
         public void surfaceCreated(SurfaceHolder holder) {
             mSurfaceHolder = holder;
-            mMediaPlayer.setDisplay(mSurfaceHolder);
+            if(mMediaPlayer != null){
+                mMediaPlayer.setDisplay(mSurfaceHolder);
+            }
         }
 
         public void surfaceDestroyed(SurfaceHolder holder) {
