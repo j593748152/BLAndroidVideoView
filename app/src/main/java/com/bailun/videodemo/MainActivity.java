@@ -3,8 +3,8 @@ package com.bailun.videodemo;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements IMediaControllerA
         }
     }
 
-    //***********************************
+//***********************************
 //
 // 视频播放控制
 //
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements IMediaControllerA
         }
     }
 
-    // ***********************************
+// ***********************************
 //
 // 进度条控制
 //
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements IMediaControllerA
                 float disX = moveX - x;
                 if (isChange && Math.abs(disX) > 2) {
                     x = moveX;
-                    long addTimeOfPixel = MediaUtil.getTimeOfPixel(mBLVideoView.getDuration()); //拖拽像素与时长调节的比例
+                    long addTimeOfPixel = MediaUtil.getTimeOfPixel(mBLVideoView.getDuration(),this); //拖拽像素与时长调节的比例
                     onTouchPlayTime += addTimeOfPixel * disX;
                     stopTiming();
                     if (onTouchPlayTime > mBLVideoView.getDuration()) {
