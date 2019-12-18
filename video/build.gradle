@@ -44,7 +44,7 @@ dependencies {
     implementation "tv.danmaku.ijk.media:ijkplayer-exo:0.8.8"
     //implementation "tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8"
 
-    implementation 'com.github.BailunMobileDev:BLAndroidUtils:v0.1.2'
+    api 'com.github.BailunMobileDev:BLAndroidUtils:v0.1.2'
 
 
 }
