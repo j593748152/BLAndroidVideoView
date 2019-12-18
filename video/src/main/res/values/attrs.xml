@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BLMediaController">
+        <attr name="iconPlay" format="reference"/>
+        <attr name="iconPause" format="reference"/>
+        <attr name="iconNext" format="reference"/>
+        <attr name="iconFullScreen" format="reference"/>
+        <attr name="iconCancelFullScreen" format="reference"/>
+        <attr name="textVideoSelect" format="string"/>
+        <attr name="seekbarThumb" format="reference"/>
+        <attr name="seekbarBackground" format="reference"/>
+    </declare-styleable>
+</resources>
