@@ -1,10 +1,14 @@
 package com.bailun.video.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
+
+import com.bailun.utils.BLDisPlayUtils;
+import com.bailun.utils.BLScreenInfoUtils;
 
 
 /**
@@ -87,11 +91,11 @@ public class MediaUtil {
      * @param videoDuration  视频总长
      * @return
      */
-    public static long getTimeOfPixel(long videoDuration) {
+    public static long getTimeOfPixel(long videoDuration, Context context) {
         if (videoDuration < 30 * SECOND) {
-            return videoDuration / ScreenUtil.getWidth();
+            return videoDuration / BLScreenInfoUtils.getRealWidth(context);
         }else {
-            return 2 * MINUTE / ScreenUtil.getWidth() ;
+            return 2 * MINUTE / BLScreenInfoUtils.getRealWidth(context);
         }
     }
 }
