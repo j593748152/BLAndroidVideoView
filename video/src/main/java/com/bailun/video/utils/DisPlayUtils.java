@@ -1,10 +1,11 @@
 package com.bailun.video.utils;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+
 
 public class DisPlayUtils {
 
@@ -45,8 +46,8 @@ public class DisPlayUtils {
      */
     private static Display getDisplay(Context context) {
         WindowManager wm;
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
+        if (context instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) context;
             wm = activity.getWindowManager();
         } else {
             wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
