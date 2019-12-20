@@ -5,7 +5,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.so'])
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
@@ -43,8 +43,4 @@ dependencies {
     api "tv.danmaku.ijk.media:ijkplayer-java:0.8.8"
     implementation "tv.danmaku.ijk.media:ijkplayer-exo:0.8.8"
     //implementation "tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8"
-
-    implementation 'com.github.BailunMobileDev:BLAndroidUtils:v0.1.2'
-
-
 }
