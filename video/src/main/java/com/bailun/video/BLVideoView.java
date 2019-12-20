@@ -10,6 +10,8 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
@@ -66,7 +68,6 @@ public class BLVideoView extends SurfaceView implements IVideoView{
     private long mSeekWhenPrepared;  // recording the seek position while preparing
     private AudioManager mAudioManager;
     private int mAudioFocusType = AudioManager.AUDIOFOCUS_GAIN; // legacy focus gain
-    private AudioAttributes mAudioAttributes;
     //音频焦点
     private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
@@ -88,18 +89,11 @@ public class BLVideoView extends SurfaceView implements IVideoView{
     }
 
     public BLVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public BLVideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-
+        super(context, attrs, defStyleAttr);
         mVideoWidth = 0;
         mVideoHeight = 0;
 
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        mAudioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE).build();
 
         getHolder().addCallback(mSHCallback);
         getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -111,6 +105,7 @@ public class BLVideoView extends SurfaceView implements IVideoView{
         mCurrentState = STATE_IDLE;
         mTargetState = STATE_IDLE;
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -206,15 +201,6 @@ public class BLVideoView extends SurfaceView implements IVideoView{
         mAudioFocusType = focusGain;
     }
 
-
-    public void setAudioAttributes(AudioAttributes attributes) {
-        if (attributes == null) {
-            throw new IllegalArgumentException("Illegal null AudioAttributes");
-        }
-        mAudioAttributes = attributes;
-    }
-
-
     public void stopPlayback() {
         Log.d(TAG,"stopPlayback");
         if (mMediaPlayer != null) {
@@ -249,7 +235,6 @@ public class BLVideoView extends SurfaceView implements IVideoView{
             mCurrentBufferPercentage = 0;
             mMediaPlayer.setDataSource(mUrl, mHeaders);
             mMediaPlayer.setDisplay(mSurfaceHolder);
-            //mMediaPlayer.setAudioAttributes(mAudioAttributes);
             mMediaPlayer.setScreenOnWhilePlaying(true);
             mMediaPlayer.prepareAsync();
 

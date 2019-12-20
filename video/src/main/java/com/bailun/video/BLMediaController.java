@@ -5,9 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.bailun.utils.BLDisPlayUtils;
 
+import com.bailun.video.utils.DisPlayUtils;
 
 /**
  * Created by jiangwensong on 2019/11/21.
@@ -221,12 +219,12 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
     protected void showDefaultType() {
         removeAllViews();
         //播放按钮
-        ConstraintLayout.LayoutParams ivPlayOrPauseParams = new ConstraintLayout.LayoutParams(BLDisPlayUtils.dip2px(mContext, 24), BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams ivPlayOrPauseParams = new ConstraintLayout.LayoutParams(DisPlayUtils.dip2px(mContext, 24), DisPlayUtils.dip2px(mContext, 24));
         ivPlayOrPauseParams.topToTop = 0;
         ivPlayOrPauseParams.bottomToBottom = 0;
         ivPlayOrPauseParams.startToStart = 0;
-        ivPlayOrPauseParams.setMarginStart(BLDisPlayUtils.dip2px(mContext, 16));
-        ivPlayOrPauseParams.bottomMargin = BLDisPlayUtils.dip2px(mContext, 10);
+        ivPlayOrPauseParams.setMarginStart(DisPlayUtils.dip2px(mContext, 16));
+        ivPlayOrPauseParams.bottomMargin = DisPlayUtils.dip2px(mContext, 10);
         mIvPlayOrPause.setLayoutParams(ivPlayOrPauseParams);
         addView(mIvPlayOrPause);
         //播放时间
@@ -234,15 +232,15 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
         tvNowParams.topToTop = mIvPlayOrPause.getId();
         tvNowParams.bottomToBottom = mIvPlayOrPause.getId();
         tvNowParams.startToEnd = mIvPlayOrPause.getId();
-        tvNowParams.setMarginStart(BLDisPlayUtils.dip2px(mContext, 16));
+        tvNowParams.setMarginStart(DisPlayUtils.dip2px(mContext, 16));
         mTvNow.setLayoutParams(tvNowParams);
         addView(mTvNow);
         //全屏图标
-        ConstraintLayout.LayoutParams ivFullParams = new ConstraintLayout.LayoutParams(BLDisPlayUtils.dip2px(mContext, 24), BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams ivFullParams = new ConstraintLayout.LayoutParams(DisPlayUtils.dip2px(mContext, 24), DisPlayUtils.dip2px(mContext, 24));
         ivFullParams.topToTop = mIvPlayOrPause.getId();
         ivFullParams.bottomToBottom = mIvPlayOrPause.getId();
         ivFullParams.endToEnd = 0;
-        ivFullParams.setMarginEnd(BLDisPlayUtils.dip2px(mContext, 16));
+        ivFullParams.setMarginEnd(DisPlayUtils.dip2px(mContext, 16));
         mIvFullScreen.setLayoutParams(ivFullParams);
         addView(mIvFullScreen);
         //播放总时长
@@ -250,11 +248,11 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
         tvAllParams.topToTop = mIvPlayOrPause.getId();
         tvAllParams.bottomToBottom = mIvPlayOrPause.getId();
         tvAllParams.endToStart = mIvFullScreen.getId();
-        tvAllParams.setMarginEnd(BLDisPlayUtils.dip2px(mContext, 16));
+        tvAllParams.setMarginEnd(DisPlayUtils.dip2px(mContext, 16));
         mTvAll.setLayoutParams(tvAllParams);
         addView(mTvAll);
         //进度条
-        ConstraintLayout.LayoutParams seekBarParams = new ConstraintLayout.LayoutParams(LayoutParams.MATCH_CONSTRAINT, BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams seekBarParams = new ConstraintLayout.LayoutParams(LayoutParams.MATCH_CONSTRAINT, DisPlayUtils.dip2px(mContext, 24));
         seekBarParams.topToTop = mIvPlayOrPause.getId();
         seekBarParams.bottomToBottom = mIvPlayOrPause.getId();
         seekBarParams.startToEnd = mTvNow.getId();
@@ -272,27 +270,27 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
     protected void showType_land() {
         removeAllViews();
         //播放按钮
-        ConstraintLayout.LayoutParams ivPlayOrPauseParams = new ConstraintLayout.LayoutParams(BLDisPlayUtils.dip2px(mContext, 24), BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams ivPlayOrPauseParams = new ConstraintLayout.LayoutParams(DisPlayUtils.dip2px(mContext, 24), DisPlayUtils.dip2px(mContext, 24));
         ivPlayOrPauseParams.bottomToBottom = 0;
         ivPlayOrPauseParams.startToStart = 0;
-        ivPlayOrPauseParams.setMarginStart(BLDisPlayUtils.dip2px(mContext, 16));
-        ivPlayOrPauseParams.bottomMargin = BLDisPlayUtils.dip2px(mContext, 18);
+        ivPlayOrPauseParams.setMarginStart(DisPlayUtils.dip2px(mContext, 16));
+        ivPlayOrPauseParams.bottomMargin = DisPlayUtils.dip2px(mContext, 18);
         mIvPlayOrPause.setLayoutParams(ivPlayOrPauseParams);
         addView(mIvPlayOrPause);
         //下一集
-        ConstraintLayout.LayoutParams ivNextParams = new ConstraintLayout.LayoutParams(BLDisPlayUtils.dip2px(mContext, 24), BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams ivNextParams = new ConstraintLayout.LayoutParams(DisPlayUtils.dip2px(mContext, 24), DisPlayUtils.dip2px(mContext, 24));
         ivNextParams.topToTop = mIvPlayOrPause.getId();
         ivNextParams.bottomToBottom = mIvPlayOrPause.getId();
         ivNextParams.startToEnd = mIvPlayOrPause.getId();
-        ivNextParams.setMarginStart(BLDisPlayUtils.dip2px(mContext, 16));
+        ivNextParams.setMarginStart(DisPlayUtils.dip2px(mContext, 16));
         mIvPlayNext.setLayoutParams(ivNextParams);
         addView(mIvPlayNext);
         //全屏图标
-        ConstraintLayout.LayoutParams ivFullParams = new ConstraintLayout.LayoutParams(BLDisPlayUtils.dip2px(mContext, 24), BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams ivFullParams = new ConstraintLayout.LayoutParams(DisPlayUtils.dip2px(mContext, 24), DisPlayUtils.dip2px(mContext, 24));
         ivFullParams.topToTop = mIvPlayOrPause.getId();
         ivFullParams.bottomToBottom = mIvPlayOrPause.getId();
         ivFullParams.endToEnd = 0;
-        ivFullParams.setMarginEnd(BLDisPlayUtils.dip2px(mContext, 16));
+        ivFullParams.setMarginEnd(DisPlayUtils.dip2px(mContext, 16));
         mIvFullScreen.setLayoutParams(ivFullParams);
         addView(mIvFullScreen);
         //选集
@@ -300,8 +298,8 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
         tvSelectParams.topToTop = mIvPlayOrPause.getId();
         tvSelectParams.bottomToBottom = mIvPlayOrPause.getId();
         tvSelectParams.endToStart = mIvFullScreen.getId();
-        tvSelectParams.goneEndMargin = BLDisPlayUtils.dip2px(mContext, 16);
-        tvSelectParams.setMarginEnd(BLDisPlayUtils.dip2px(mContext, 16));
+        tvSelectParams.goneEndMargin = DisPlayUtils.dip2px(mContext, 16);
+        tvSelectParams.setMarginEnd(DisPlayUtils.dip2px(mContext, 16));
         mTvSelect.setLayoutParams(tvSelectParams);
         addView(mTvSelect);
         //播放时间
@@ -309,8 +307,8 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
         tvNowParams.topToTop = 0;
         tvNowParams.startToStart = 0;
         tvNowParams.bottomToTop = mIvPlayOrPause.getId();
-        tvNowParams.bottomMargin = BLDisPlayUtils.dip2px(mContext, 24);
-        tvNowParams.setMarginStart(BLDisPlayUtils.dip2px(mContext, 16));
+        tvNowParams.bottomMargin = DisPlayUtils.dip2px(mContext, 24);
+        tvNowParams.setMarginStart(DisPlayUtils.dip2px(mContext, 16));
         mTvNow.setLayoutParams(tvNowParams);
         addView(mTvNow);
         //播放总时长
@@ -318,11 +316,11 @@ public class BLMediaController extends ConstraintLayout implements View.OnClickL
         tvAllParams.topToTop = mTvNow.getId();
         tvAllParams.bottomToBottom = mTvNow.getId();
         tvAllParams.endToEnd = 0;
-        tvAllParams.setMarginEnd(BLDisPlayUtils.dip2px(mContext, 16));
+        tvAllParams.setMarginEnd(DisPlayUtils.dip2px(mContext, 16));
         mTvAll.setLayoutParams(tvAllParams);
         addView(mTvAll);
         //进度条
-        ConstraintLayout.LayoutParams seekBarParams = new ConstraintLayout.LayoutParams(LayoutParams.MATCH_CONSTRAINT, BLDisPlayUtils.dip2px(mContext, 24));
+        ConstraintLayout.LayoutParams seekBarParams = new ConstraintLayout.LayoutParams(LayoutParams.MATCH_CONSTRAINT, DisPlayUtils.dip2px(mContext, 24));
         seekBarParams.topToTop = mTvNow.getId();
         seekBarParams.bottomToBottom = mTvNow.getId();
         seekBarParams.startToEnd = mTvNow.getId();
