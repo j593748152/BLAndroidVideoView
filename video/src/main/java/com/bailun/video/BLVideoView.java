@@ -411,11 +411,6 @@ public class BLVideoView extends SurfaceView implements IVideoView{
             mSurfaceHolder = holder;
             if(mMediaPlayer != null){
                 mMediaPlayer.setDisplay(mSurfaceHolder);
-            }else {
-                openVideo();
-                if(mMediaPlayer != null){
-                    mMediaPlayer.setDisplay(mSurfaceHolder);
-                }
             }
         }
 
