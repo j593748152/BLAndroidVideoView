@@ -2,8 +2,8 @@
 apply plugin: 'maven'
 
 def POM_ARTIFACT_ID = "lib_video";
-def POM_GROUP_ID = "com.bailun.android";
-def VERSION_NAME = "0.1.7";
+def POM_GROUP_ID = "com.bailun.video";
+def VERSION_NAME = "0.1.8";
 def POM_PACKAGING = "aar"
 def POM_DESCRIPTION = "Android 视频库"
 def POM_NAME = "AndroidDev BLVideoView"
