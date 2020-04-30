@@ -19,6 +19,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url "http://218.244.157.23:7000/nexus/content/repositories/android-releases"
+        }
     }
 }
 
