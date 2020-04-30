@@ -19,10 +19,17 @@ import com.bailun.video.IVideoView;
 import com.bailun.video.utils.MediaUtil;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 public class MainActivity extends AppCompatActivity implements IMediaControllerAction, View.OnTouchListener {
 
     private static final String TAG = "MainActivity";
+
+
+    static {
+        IjkMediaPlayer.loadLibrariesOnce(null);
+        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+    }
 
     BLVideoView mBLVideoView;
     BLMediaController mMediaController;
