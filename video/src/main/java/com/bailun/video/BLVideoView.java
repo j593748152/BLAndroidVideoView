@@ -6,15 +6,17 @@ package com.bailun.video;
  */
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
+import android.os.PowerManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.Surface;
+import android.view.TextureView;
 
 import com.bailun.video.utils.MediaUtil;
 
@@ -26,13 +28,8 @@ import java.util.Vector;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
-public class BLVideoView extends SurfaceView implements IVideoView{
+public class BLVideoView extends TextureView implements IVideoView{
     private static final String TAG = "BLVideoView";
-
-    static {
-        IjkMediaPlayer.loadLibrariesOnce(null);
-        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
-    }
 
     // all possible internal states
     public static final int STATE_ERROR = -1;
@@ -52,7 +49,6 @@ public class BLVideoView extends SurfaceView implements IVideoView{
     private int mTargetState = STATE_IDLE;
 
     // All the stuff we need for playing and showing a video
-    private SurfaceHolder mSurfaceHolder = null;
     private IjkMediaPlayer mMediaPlayer = null;
     private int mVideoWidth;
     private int mVideoHeight;
@@ -92,8 +88,7 @@ public class BLVideoView extends SurfaceView implements IVideoView{
 
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
-        getHolder().addCallback(mSHCallback);
-        getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        setSurfaceTextureListener(mSurfaceTextureListener);
 
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -211,7 +206,7 @@ public class BLVideoView extends SurfaceView implements IVideoView{
     }
 
     private void openVideo() {
-        if (mUrl == null || mSurfaceHolder == null) {
+        if (mUrl == null || mSurface == null) {
             return;
         }
         release(false);
@@ -223,6 +218,15 @@ public class BLVideoView extends SurfaceView implements IVideoView{
         try {
             mMediaPlayer = new IjkMediaPlayer();
 
+            mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 1024L * 512);//太小会导致《猴博士》视频没有声音
+            mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "fflags", "fastseek");
+            //mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "seek-at-start", mSeekWhenPrepared);//开始播放seek时间
+            //mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1);//精准seek，缓冲时间长
+
+            //播放常亮
+            mMediaPlayer.setScreenOnWhilePlaying(true);
+            mMediaPlayer.setWakeMode(getContext(), PowerManager.SCREEN_BRIGHT_WAKE_LOCK);
+            //
             mMediaPlayer.setOnPreparedListener(mPreparedListener);
             mMediaPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
             mMediaPlayer.setOnCompletionListener(mCompletionListener);
@@ -231,7 +235,7 @@ public class BLVideoView extends SurfaceView implements IVideoView{
             mMediaPlayer.setOnBufferingUpdateListener(mBufferingUpdateListener);
             mCurrentBufferPercentage = 0;
             mMediaPlayer.setDataSource(mUrl, mHeaders);
-            mMediaPlayer.setDisplay(mSurfaceHolder);
+            mMediaPlayer.setSurface(mSurface);
             mMediaPlayer.setScreenOnWhilePlaying(true);
             mMediaPlayer.prepareAsync();
 
@@ -270,7 +274,7 @@ public class BLVideoView extends SurfaceView implements IVideoView{
                     mVideoWidth = mp.getVideoWidth();
                     mVideoHeight = mp.getVideoHeight();
                     if (mVideoWidth != 0 && mVideoHeight != 0) {
-                        getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                        //getHolder().setFixedSize(mVideoWidth, mVideoHeight);
                         requestLayout();
                     }
                 }
@@ -293,7 +297,8 @@ public class BLVideoView extends SurfaceView implements IVideoView{
                 seekTo(seekToPosition);
             }
             if (mVideoWidth != 0 && mVideoHeight != 0) {
-                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                //getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                requestLayout();
             } else {
                 if (mTargetState == STATE_PLAYING) {
                     start();
@@ -391,11 +396,26 @@ public class BLVideoView extends SurfaceView implements IVideoView{
         mOnBufferingUpdateListener = l;
     }
 
-    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback() {
-        public void surfaceChanged(SurfaceHolder holder, int format,
-                                   int w, int h) {
+    private Surface mSurface;
+
+    SurfaceTextureListener mSurfaceTextureListener = new SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            mSurface = new Surface(surface);
+            if(mMediaPlayer != null){
+                mMediaPlayer.setSurface(mSurface);
+            }else {
+                openVideo();
+                if(mMediaPlayer != null){
+                    mMediaPlayer.setSurface(mSurface);
+                }
+            }
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
             boolean isValidState = (mTargetState == STATE_PLAYING);
-            boolean hasValidSize = (mVideoWidth == w && mVideoHeight == h);
+            boolean hasValidSize = (mVideoWidth == width && mVideoHeight == height);
             if (mMediaPlayer != null && isValidState && hasValidSize) {
                 if (mSeekWhenPrepared != 0) {
                     seekTo(mSeekWhenPrepared);
@@ -404,24 +424,18 @@ public class BLVideoView extends SurfaceView implements IVideoView{
             }
         }
 
-        public void surfaceCreated(SurfaceHolder holder) {
-            mSurfaceHolder = holder;
-            if(mMediaPlayer != null){
-                mMediaPlayer.setDisplay(mSurfaceHolder);
-            }else {
-                openVideo();
-                if(mMediaPlayer != null){
-                    mMediaPlayer.setDisplay(mSurfaceHolder);
-                }
-            }
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            mSurface= null;
+            return false;
         }
 
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            // after we return from this we can't use the surface any more
-            mSurfaceHolder = null;
-            //release(true);
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
         }
     };
+
 
     /*
      * release the media player in any state
@@ -528,6 +542,16 @@ public class BLVideoView extends SurfaceView implements IVideoView{
 
     @Override
     public void seekTo(long msec) {
+        //跳转0秒失败方案
+        if (msec < 100){
+            msec = 100;
+        }
+        //跳转0秒失败方案2
+//        if (isInPlaybackState()) {
+//            stopPlayback();
+//            openVideo();
+//        }
+
         if (isInPlaybackState()) {
             mMediaPlayer.seekTo(msec);
             mSeekWhenPrepared = 0;

@@ -1,0 +1,64 @@
+//支持将项目发布到maven仓库的插件
+apply plugin: 'maven'
+
+def POM_ARTIFACT_ID = "lib_video";
+def POM_GROUP_ID = "com.bailun.android";
+def VERSION_NAME = "0.1.7";
+def POM_PACKAGING = "aar"
+def POM_DESCRIPTION = "Android 视频库"
+def POM_NAME = "AndroidDev BLVideoView"
+def isDebug = false
+
+//声明变量记录上传Maven库地址
+def repositoryUrl
+def nexusUserName
+def nexusPassword
+
+//判断发到正式库还是snapshot库
+if (!isDebug) {
+  println 'Release Build'
+  //上传Release私有仓库
+  repositoryUrl = "http://218.244.157.23:7000/nexus/content/repositories/android-releases"
+  nexusUserName = "admin"
+  nexusPassword = "admin123"
+} else {
+  println 'Debug Build'
+  //上传snapshot私有仓库
+  repositoryUrl = "http://218.244.157.23:7000/nexus/content/repositories/android-snapshots"
+  nexusUserName = "deployment"
+  nexusPassword = "admin123"
+  VERSION_NAME = VERSION_NAME + '-SNAPSHOT'
+}
+
+//配置阶段要结束，项目评估完会走到这一步
+afterEvaluate { project ->
+  //声明上传Maven的Task
+  uploadArchives {
+    repositories {
+      mavenDeployer {
+
+        //构件标识符
+        pom.artifactId = POM_ARTIFACT_ID
+        //全球唯一标识符
+        pom.groupId = POM_GROUP_ID
+        //构件版本
+        pom.version = VERSION_NAME
+
+        //用户名和密码授权验证
+        repository(url: repositoryUrl) {
+          authentication(userName: nexusUserName, password: nexusPassword)
+        }
+
+        //配置pom.xml
+        pom.project {
+          //库名称
+          name POM_NAME
+          //打包下载上传的格式
+          packaging POM_PACKAGING
+          //描述信息
+          description POM_DESCRIPTION
+        }
+      }
+    }
+  }
+}

@@ -1,11 +1,10 @@
 package com.bailun.video.utils;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 
 public class DisPlayUtils {

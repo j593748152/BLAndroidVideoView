@@ -11,6 +11,6 @@ allprojects {
 依赖   
 <pre>
 dependencies {
-	        implementation 'com.github.BailunMobileDev:BLAndroidVideoView:v0.1.0'
+	        implementation 'com.github.BailunMobileDev:BLAndroidVideoView:v0.1.1'
 }
 </pre>
