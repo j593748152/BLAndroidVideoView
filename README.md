@@ -5,14 +5,14 @@
 allprojects {
     repositories {
 			...
-			maven { url 'https://jitpack.io' }
+			        maven { url "http://218.244.157.23:7000/nexus/content/repositories/android-releases" }
 		}
 }
 </pre>
 ###依赖
 <pre>
 dependencies {
-implementation'com.github.BailunMobileDev:BLAndroidVideoView:v0.1.1'
+    implementation 'com.bailun.video:lib_video:0.1.8'
 }
 </pre>
 
